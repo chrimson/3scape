@@ -8,17 +8,28 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setAnimationLoop( animate );
 document.body.appendChild( renderer.domElement );
 
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+const geometry = new THREE.BoxGeometry( 1, 1, 1, 5, 5, 5 );
+const material = new THREE.MeshStandardMaterial;
 const cube = new THREE.Mesh( geometry, material );
+cube.rotateX(1/4 * Math.PI);
+cube.rotateY(1/4 * Math.PI);
 scene.add( cube );
 
-camera.position.z = 5;
+const light = new THREE.AmbientLight( 0xfff, 0.05 );
+scene.add( light );
+
+const light1 = new THREE.PointLight( 0x00f, 10000 );
+scene.add( light1 );
+
+camera.position.set(0, 0, 5);
+light1.position.z = 5;
+light1.position.x = 2;
+light1.position.y = -1;
 
 function animate() {
 
-	cube.rotation.x += 0.01;
-	cube.rotation.y += 0.01;
+	const time = Date.now() * 0.0005;
 
 	renderer.render( scene, camera );
 
