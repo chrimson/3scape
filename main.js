@@ -1,4 +1,7 @@
 import * as THREE from 'three';
+import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
+
+const clock = new THREE.Clock();
 
 const renderer = new THREE.WebGLRenderer;
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -14,19 +17,19 @@ carpet.translateY(-4);
 carpet.rotateX(0.5 * Math.PI);
 
 const material = new THREE.MeshStandardMaterial({color: 0xefefdf, side: THREE.DoubleSide});
-const planeN = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
-planeN.translateZ(-5);
+const wallN = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
+wallN.translateZ(-5);
 
-const planeS = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
-planeS.translateZ(5);
+const wallS = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
+wallS.translateZ(5);
 
-const planeE = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
-planeE.translateX(5);
-planeE.rotateY(0.5 * Math.PI);
+const wallE = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
+wallE.translateX(5);
+wallE.rotateY(0.5 * Math.PI);
 
-const planeW = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
-planeW.translateX(-5);
-planeW.rotateY(0.5 * Math.PI);
+const wallW = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
+wallW.translateX(-5);
+wallW.rotateY(0.5 * Math.PI);
 
 const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide}));
 ceiling.translateY(4);
@@ -34,13 +37,11 @@ ceiling.rotateX(0.5 * Math.PI);
 
 const group = new THREE.Group;
 group.add(carpet);
-group.add(planeN);
-group.add(planeS);
-group.add(planeE);
-group.add(planeW);
+group.add(wallN);
+group.add(wallS);
+group.add(wallE);
+group.add(wallW);
 group.add(ceiling);
-group.rotateY(1/8 * Math.PI);
-
 scene.add(group);
 
 const lightA = new THREE.AmbientLight(0x0f0f0e, 10);
@@ -48,8 +49,32 @@ scene.add(lightA);
 const lightP = new THREE.PointLight(0x0f0f0e, 10000);
 scene.add(lightP);
 
+const controls = new FirstPersonControls(camera, renderer.domElement);
+controls.movementSpeed = 0.5;
+controls.lookSpeed = 0.1;
+
 function animate() {
-  camera.rotation.y += 0.01;
+  controls.update(clock.getDelta());
+
+  if (camera.position.x < -4.25) {
+    camera.position.x = -4;
+  }
+  if (camera.position.x > 4.25) {
+    camera.position.x = 4;
+  }
+  if (camera.position.y < -3.25) {
+    camera.position.y = -3;
+  }
+  if (camera.position.y > 3.25) {
+    camera.position.y = 3;
+  }
+  if (camera.position.z < -4.25) {
+    camera.position.z = -4;
+  }
+  if (camera.position.z > 4.25) {
+    camera.position.z = 4;
+  }
+//  console.log(camera.position);
 
   renderer.render(scene, camera);
 }
