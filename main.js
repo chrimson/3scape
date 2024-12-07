@@ -12,11 +12,11 @@ const scene = new THREE.Scene;
 const camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 0);
 
-const carpet = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshStandardMaterial({color: 0x784315, side: THREE.DoubleSide}));
+const carpet = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshStandardMaterial({color: 0xf0862a, side: THREE.DoubleSide}));
 carpet.translateY(-4);
 carpet.rotateX(0.5 * Math.PI);
 
-const material = new THREE.MeshStandardMaterial({color: 0xefefdf, side: THREE.DoubleSide});
+const material = new THREE.MeshStandardMaterial({color: 0xcfcfef, side: THREE.DoubleSide});
 const wallN = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), material);
 wallN.translateZ(-5);
 
